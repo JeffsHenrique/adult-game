@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import './i18n/i18n'
-import { useGameStore } from './store/useGameStore'
 import { supabase } from './lib/supabase'
-import { generateFingerprint } from './utils/fingerprint'
-import { getDailySeed, getUTC3Date } from './utils/dailySeed'
-import { generateDailyGame } from './utils/billGenerator'
 import { AlreadyPlayed } from './pages/AlreadyPlayed'
 import { Game } from './pages/Game'
+import { useGameStore } from './store/useGameStore'
+import { generateDailyGame } from './utils/billGenerator'
+import { getDailySeed, getUTC3Date } from './utils/dailySeed'
+import { generateFingerprint } from './utils/fingerprint'
 
 export default function App() {
   const { t } = useTranslation()

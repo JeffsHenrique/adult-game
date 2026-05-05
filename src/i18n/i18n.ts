@@ -1,10 +1,10 @@
 import i18n from 'i18next'
-import { initReactI18next } from 'react-i18next'
 import LanguageDetector from 'i18next-browser-languagedetector'
+import { initReactI18next } from 'react-i18next'
 
 import enCommon from './locales/en/common.json'
-import ptBrCommon from './locales/pt-BR/common.json'
 import enGame from './locales/en/game.json'
+import ptBrCommon from './locales/pt-BR/common.json'
 import ptBrGame from './locales/pt-BR/game.json'
 
 i18n
@@ -15,14 +15,14 @@ i18n
       en: { common: enCommon, game: enGame },
       'pt-BR': { common: ptBrCommon, game: ptBrGame },
     },
-    fallbackLng: 'en',
+    fallbackLng: 'pt-BR',
     supportedLngs: ['en', 'pt-BR'],
     defaultNS: 'common',
     interpolation: {
       escapeValue: false,
     },
     detection: {
-      order: ['navigator', 'htmlTag'],
+      order: ['localStorage', 'navigator', 'htmlTag'],
       caches: ['localStorage'],
     },
   })
