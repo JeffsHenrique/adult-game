@@ -1,0 +1,15 @@
+{
+  "title": "Adult Game",
+  "loading": "Loading...",
+  "comeBackTomorrow": "Come back tomorrow!",
+  "nextGameIn": "Next game in",
+  "payBills": "Pay Bills",
+  "totalSelected": "Total selected",
+  "youEarn": "You earn",
+  "congratulations": "Congratulations! You know how to live an adult life",
+  "irresponsible": "No... You're irresponsible",
+  "rightAnswer": "The right answer was",
+  "essential": "Essential",
+  "discretionary": "Discretionary",
+  "warning": "Could not sync with server"
+}

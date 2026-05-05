@@ -1,0 +1,22 @@
+{
+  "bills": {
+    "rent": "Aluguel",
+    "electricity": "Luz",
+    "water": "Água",
+    "gas": "Gás",
+    "internet": "Internet",
+    "phone": "Plano de Celular",
+    "groceries": "Mercado",
+    "transport": "Transporte",
+    "netflix": "Netflix",
+    "spotify": "Spotify",
+    "uber": "Uber",
+    "ifood": "iFood",
+    "gym": "Academia",
+    "amazon": "Amazon",
+    "youtube_premium": "YouTube Premium",
+    "disney_plus": "Disney+",
+    "hbo_max": "HBO Max",
+    "shein": "Shein"
+  }
+}

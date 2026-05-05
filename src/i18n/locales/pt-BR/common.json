@@ -1,0 +1,15 @@
+{
+  "title": "Jogo Adulto",
+  "loading": "Carregando...",
+  "comeBackTomorrow": "Volte amanhã!",
+  "nextGameIn": "Próximo jogo em",
+  "payBills": "Pagar Contas",
+  "totalSelected": "Total selecionado",
+  "youEarn": "Você ganha",
+  "congratulations": "Parabéns! Você sabe viver como um adulto",
+  "irresponsible": "Não... Você é irresponsável",
+  "rightAnswer": "A resposta certa era",
+  "essential": "Essencial",
+  "discretionary": "Supérfluo",
+  "warning": "Não foi possível sincronizar com o servidor"
+}
