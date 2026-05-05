@@ -1,23 +1,160 @@
 import { useTranslation } from 'react-i18next'
+import { useEffect, useState } from 'react'
 import { LanguageSwitcher } from '../components/LanguageSwitcher'
 import { CountdownTimer } from '../components/CountdownTimer'
+import { Footer } from '../components/Footer'
+import { getDailySeed, getUTC3Date } from '../utils/dailySeed'
+import { generateDailyGame, BillWithPrice } from '../utils/billGenerator'
+import { formatCurrency } from '../utils/currency'
+
+interface CachedGameData {
+  salary: number
+  correctAnswer: string[]
+  userSelection: string[]
+  result: 'win' | 'lose'
+}
 
 export function AlreadyPlayed() {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
+  const [gameData, setGameData] = useState<CachedGameData | null>(null)
+  const [bills, setBills] = useState<BillWithPrice[]>([])
+
+  useEffect(() => {
+    const dateKey = getUTC3Date()
+    const cached = localStorage.getItem(`daily_game_${dateKey}`)
+    if (cached) {
+      const data: CachedGameData = JSON.parse(cached)
+      setGameData(data)
+
+      // Regenerate today's game to get the bill details
+      const seed = getDailySeed()
+      const game = generateDailyGame(seed)
+      setBills(game.bills)
+    }
+  }, [])
+
+  const correctBills = bills.filter((b) => gameData?.correctAnswer.includes(b.id))
+  const userBills = bills.filter((b) => gameData?.userSelection.includes(b.id))
+
+  const correctTotal = correctBills.reduce((sum, b) => sum + b.price, 0)
+  const userTotal = userBills.reduce((sum, b) => sum + b.price, 0)
 
   return (
     <div className="min-h-screen bg-gray-900 text-white">
       <header className="flex justify-between items-center p-4 max-w-4xl mx-auto">
-        <h1 className="text-xl font-bold">{t('title')}</h1>
+        <div className="flex items-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none" className="w-8 h-8">
+            <rect x="4" y="2" width="24" height="28" rx="2" fill="#1e3a5f" stroke="#3b82f6" strokeWidth="1.5"/>
+            <path d="M4 6 L8 4 L12 6 L16 4 L20 6 L24 4 L28 6" stroke="#3b82f6" strokeWidth="1.5" fill="none"/>
+            <line x1="9" y1="12" x2="23" y2="12" stroke="#6b7280" strokeWidth="1.5" strokeLinecap="round"/>
+            <line x1="9" y1="16" x2="20" y2="16" stroke="#6b7280" strokeWidth="1.5" strokeLinecap="round"/>
+            <circle cx="16" cy="23" r="6" fill="#ef4444" stroke="#dc2626" strokeWidth="1"/>
+            <text x="16" y="25" textAnchor="middle" fill="white" fontSize="8" fontWeight="bold" fontFamily="system-ui, sans-serif">+18</text>
+          </svg>
+          <h1 className="text-xl font-bold">{t('title')}</h1>
+        </div>
         <LanguageSwitcher />
       </header>
 
-      <main className="flex flex-col items-center justify-center min-h-[70vh] gap-8">
+      <main className="p-4 max-w-4xl mx-auto space-y-8">
         <div className="text-center">
-          <h2 className="text-3xl font-bold mb-4">{t('comeBackTomorrow')}</h2>
+          <h2 className="text-3xl font-bold mb-2">{t('comeBackTomorrow')}</h2>
           <CountdownTimer />
         </div>
+
+        {gameData && bills.length > 0 && (
+          <>
+            {/* Today's salary */}
+            <div className="bg-gradient-to-r from-blue-600 to-blue-800 rounded-xl p-6 text-white shadow-lg">
+              <p className="text-sm opacity-80">{t('youEarn')}</p>
+              <p className="text-3xl font-bold mt-1">
+                {formatCurrency(gameData.salary, i18n.language)}
+              </p>
+            </div>
+
+            {/* Result banner */}
+            <div
+              className={`rounded-xl p-6 text-center ${
+                gameData.result === 'win'
+                  ? 'bg-gradient-to-r from-green-600 to-emerald-700'
+                  : 'bg-gradient-to-r from-red-600 to-red-800'
+              }`}
+            >
+              <p className="text-2xl font-bold">
+                {t(gameData.result === 'win' ? 'congratulations' : 'irresponsible')}
+              </p>
+            </div>
+
+            {/* Correct Answer */}
+            <div className="bg-gray-800 rounded-xl p-6">
+              <p className="text-lg font-medium text-gray-300 mb-4">{t('rightAnswer')}:</p>
+              <div className="space-y-2">
+                {correctBills.map((bill) => (
+                  <div
+                    key={bill.id}
+                    className="flex justify-between items-center bg-green-900/30 border border-green-700/50 rounded-lg p-3"
+                  >
+                    <span className="text-white font-medium">
+                      {t(bill.nameKey, { ns: 'game' })}
+                    </span>
+                    <span className="text-white font-bold">
+                      {formatCurrency(bill.price, i18n.language)}
+                    </span>
+                  </div>
+                ))}
+              </div>
+              <div className="mt-4 pt-4 border-t border-gray-600 flex justify-between">
+                <span className="text-gray-400 font-medium">Total</span>
+                <span className="text-green-400 font-bold text-lg">
+                  {formatCurrency(correctTotal, i18n.language)}
+                </span>
+              </div>
+            </div>
+
+            {/* User's Selection */}
+            <div className="bg-gray-800 rounded-xl p-6">
+              <p className="text-lg font-medium text-gray-300 mb-4">
+                {gameData.result === 'win'
+                  ? 'Your answer:'
+                  : 'Your answer:'}
+              </p>
+              {userBills.length === 0 ? (
+                <p className="text-gray-500 italic">No bills selected</p>
+              ) : (
+                <div className="space-y-2">
+                  {userBills.map((bill) => {
+                    const wasCorrect = gameData.correctAnswer.includes(bill.id)
+                    return (
+                      <div
+                        key={bill.id}
+                        className={`flex justify-between items-center rounded-lg p-3 ${
+                          wasCorrect
+                            ? 'bg-green-900/20 border border-green-700/30'
+                            : 'bg-red-900/20 border border-red-700/30'
+                        }`}
+                      >
+                        <span className="text-white font-medium">
+                          {t(bill.nameKey, { ns: 'game' })}
+                        </span>
+                        <span className="text-white font-bold">
+                          {formatCurrency(bill.price, i18n.language)}
+                        </span>
+                      </div>
+                    )
+                  })}
+                </div>
+              )}
+              <div className="mt-4 pt-4 border-t border-gray-600 flex justify-between">
+                <span className="text-gray-400 font-medium">Total</span>
+                <span className="text-white font-bold text-lg">
+                  {formatCurrency(userTotal, i18n.language)}
+                </span>
+              </div>
+            </div>
+          </>
+        )}
       </main>
+      <Footer />
     </div>
   )
 }

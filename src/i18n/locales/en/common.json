@@ -6,10 +6,11 @@
   "payBills": "Pay Bills",
   "totalSelected": "Total selected",
   "youEarn": "You earn",
-  "congratulations": "Congratulations! You know how to live an adult life",
-  "irresponsible": "No... You're irresponsible",
+  "congratulations": "Congratulations! You really know how to live an adult life.",
+  "irresponsible": "No... You're irresponsible and showed that you don't know how to be an adult.",
   "rightAnswer": "The right answer was",
   "essential": "Essential",
   "discretionary": "Discretionary",
-  "warning": "Could not sync with server"
+  "warning": "Could not sync with server",
+  "footer": "Developed by JeffsHenrique"
 }

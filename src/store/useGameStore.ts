@@ -46,15 +46,27 @@ export const useGameStore = create<GameState>()((set, get) => ({
   setServerError: (error) => set({ serverError: error }),
 
   submitSelection: async () => {
-    const { selectedBills, correctAnswer } = get()
+    const { selectedBills, correctAnswer, salary } = get()
     const isWin =
       selectedBills.length === correctAnswer.length &&
       selectedBills.every((id) => correctAnswer.includes(id))
 
-    set({ gameResult: isWin ? 'win' : 'lose' })
+    const result = isWin ? 'win' : 'lose'
+    set({ gameResult: result })
 
     const dateKey = getUTC3Date()
     const fingerprint = await generateFingerprint()
+
+    // Cache today's game data for AlreadyPlayed page
+    localStorage.setItem(
+      `daily_game_${dateKey}`,
+      JSON.stringify({
+        salary,
+        correctAnswer,
+        userSelection: selectedBills,
+        result,
+      })
+    )
 
     try {
       await supabase.from('daily_plays').insert({

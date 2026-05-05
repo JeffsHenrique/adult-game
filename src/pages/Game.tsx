@@ -5,6 +5,7 @@ import { SalaryCard } from '../components/SalaryCard'
 import { BillCard } from '../components/BillCard'
 import { RunningTotal } from '../components/RunningTotal'
 import { ResultScreen } from '../components/ResultScreen'
+import { Footer } from '../components/Footer'
 
 export function Game() {
   const { t } = useTranslation()
@@ -29,12 +30,23 @@ export function Game() {
     return (
       <div className="min-h-screen bg-gray-900 text-white">
         <header className="flex justify-between items-center p-4 max-w-4xl mx-auto">
-          <h1 className="text-xl font-bold">{t('title')}</h1>
+          <div className="flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none" className="w-8 h-8">
+              <rect x="4" y="2" width="24" height="28" rx="2" fill="#1e3a5f" stroke="#3b82f6" strokeWidth="1.5"/>
+              <path d="M4 6 L8 4 L12 6 L16 4 L20 6 L24 4 L28 6" stroke="#3b82f6" strokeWidth="1.5" fill="none"/>
+              <line x1="9" y1="12" x2="23" y2="12" stroke="#6b7280" strokeWidth="1.5" strokeLinecap="round"/>
+              <line x1="9" y1="16" x2="20" y2="16" stroke="#6b7280" strokeWidth="1.5" strokeLinecap="round"/>
+              <circle cx="16" cy="23" r="6" fill="#ef4444" stroke="#dc2626" strokeWidth="1"/>
+              <text x="16" y="25" textAnchor="middle" fill="white" fontSize="8" fontWeight="bold" fontFamily="system-ui, sans-serif">+18</text>
+            </svg>
+            <h1 className="text-xl font-bold">{t('title')}</h1>
+          </div>
           <LanguageSwitcher />
         </header>
         <main className="p-4 max-w-4xl mx-auto">
           <ResultScreen result={gameResult} bills={bills} correctAnswer={correctAnswer} />
         </main>
+        <Footer />
       </div>
     )
   }
@@ -42,7 +54,17 @@ export function Game() {
   return (
     <div className="min-h-screen bg-gray-900 text-white">
       <header className="flex justify-between items-center p-4 max-w-4xl mx-auto">
-        <h1 className="text-xl font-bold">{t('title')}</h1>
+        <div className="flex items-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none" className="w-8 h-8">
+            <rect x="4" y="2" width="24" height="28" rx="2" fill="#1e3a5f" stroke="#3b82f6" strokeWidth="1.5"/>
+            <path d="M4 6 L8 4 L12 6 L16 4 L20 6 L24 4 L28 6" stroke="#3b82f6" strokeWidth="1.5" fill="none"/>
+            <line x1="9" y1="12" x2="23" y2="12" stroke="#6b7280" strokeWidth="1.5" strokeLinecap="round"/>
+            <line x1="9" y1="16" x2="20" y2="16" stroke="#6b7280" strokeWidth="1.5" strokeLinecap="round"/>
+            <circle cx="16" cy="23" r="6" fill="#ef4444" stroke="#dc2626" strokeWidth="1"/>
+            <text x="16" y="25" textAnchor="middle" fill="white" fontSize="8" fontWeight="bold" fontFamily="system-ui, sans-serif">+18</text>
+          </svg>
+          <h1 className="text-xl font-bold">{t('title')}</h1>
+        </div>
         <LanguageSwitcher />
       </header>
 
@@ -81,6 +103,7 @@ export function Game() {
           </button>
         </div>
       </main>
+      <Footer />
     </div>
   )
 }
