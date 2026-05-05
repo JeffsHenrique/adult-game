@@ -11,5 +11,6 @@
   "rightAnswer": "A resposta certa era",
   "essential": "Essencial",
   "discretionary": "Supérfluo",
-  "warning": "Não foi possível sincronizar com o servidor"
+  "warning": "Não foi possível sincronizar com o servidor",
+  "footer": "Desenvolvido por JeffsHenrique"
 }

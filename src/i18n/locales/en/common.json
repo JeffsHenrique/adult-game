@@ -11,5 +11,6 @@
   "rightAnswer": "The right answer was",
   "essential": "Essential",
   "discretionary": "Discretionary",
-  "warning": "Could not sync with server"
+  "warning": "Could not sync with server",
+  "footer": "Developed by JeffsHenrique"
 }

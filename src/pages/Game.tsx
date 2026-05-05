@@ -5,6 +5,7 @@ import { SalaryCard } from '../components/SalaryCard'
 import { BillCard } from '../components/BillCard'
 import { RunningTotal } from '../components/RunningTotal'
 import { ResultScreen } from '../components/ResultScreen'
+import { Footer } from '../components/Footer'
 
 export function Game() {
   const { t } = useTranslation()
@@ -45,6 +46,7 @@ export function Game() {
         <main className="p-4 max-w-4xl mx-auto">
           <ResultScreen result={gameResult} bills={bills} correctAnswer={correctAnswer} />
         </main>
+        <Footer />
       </div>
     )
   }
@@ -101,6 +103,7 @@ export function Game() {
           </button>
         </div>
       </main>
+      <Footer />
     </div>
   )
 }

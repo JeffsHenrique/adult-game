@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next'
 import { useEffect, useState } from 'react'
 import { LanguageSwitcher } from '../components/LanguageSwitcher'
 import { CountdownTimer } from '../components/CountdownTimer'
+import { Footer } from '../components/Footer'
 import { getDailySeed, getUTC3Date } from '../utils/dailySeed'
 import { generateDailyGame, BillWithPrice } from '../utils/billGenerator'
 import { formatCurrency } from '../utils/currency'
@@ -153,6 +154,7 @@ export function AlreadyPlayed() {
           </>
         )}
       </main>
+      <Footer />
     </div>
   )
 }
