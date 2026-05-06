@@ -7,8 +7,12 @@
   "totalSelected": "Total selecionado",
   "youEarn": "Você ganha",
   "congratulations": "Parabéns! Você realmente sabe viver como um adulto!",
-  "irresponsible": "Não... Você é irresponsável e mostrou que não sabe ser adulto.",
+  "irresponsible": "Que pena! Você é irresponsável e mostrou que não sabe ser adulto.",
+  "playedCongratulations": "Hoje você mostrou, de algum jeito, que realmente sabe viver como um adulto! Bacana :D",
+  "playedIrresponsible": "Hoje você mostrou que é irresponsável. Que vergonha, que vergonha :(",
   "rightAnswer": "A resposta certa era",
+  "userAnswer": "Sua resposta foi",
+  "todaysBills": "As opções de hoje",
   "essential": "Essencial",
   "discretionary": "Supérfluo",
   "warning": "Não foi possível sincronizar com o servidor",
@@ -16,5 +20,5 @@
   "guideTitle": "Como Jogar",
   "guideClose": "Entendi!",
   "help": "Ajuda",
-  "guideRules": "Você recebe um salário aleatório e uma lista de contas. O total de todas as contas sempre excede seu salário — você não consegue pagar tudo.\n\nEscolha quais contas pagar e envie sua seleção. Existe exatamente UMA resposta correta por dia.\n\nSe sua seleção coincidir perfeitamente, você vence. Se não... sempre há amanhã.\n\nUma jogada por dia — reseta à meia-noite (horário de Brasília)."
+  "guideRules": "Você recebe um salário aleatório e uma lista de contas. O total de todas as contas sempre excede seu salário — você não consegue pagar tudo... igual a vida adulta.\n\nEscolha quais contas pagar e envie sua seleção. Existe exatamente UMA resposta correta por dia.\n\nSe sua seleção coincidir perfeitamente, você vence e prova que é um adulto responsável. Se não... bem, todo dia é uma oportunidade de ficar com o nome sujo.\n\nUma jogada por dia — reseta à meia-noite (horário de Brasília)."
 }
