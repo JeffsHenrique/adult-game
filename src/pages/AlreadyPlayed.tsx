@@ -51,10 +51,8 @@ export function AlreadyPlayed() {
     localStorage.setItem('last_date_key', getUTC3Date())
   }, [])
 
-  const correctBills = bills.filter((b) => gameData?.correctAnswer.includes(b.id))
   const userBills = bills.filter((b) => gameData?.userSelection.includes(b.id))
 
-  const correctTotal = correctBills.reduce((sum, b) => sum + b.price, 0)
   const userTotal = userBills.reduce((sum, b) => sum + b.price, 0)
 
   return (
