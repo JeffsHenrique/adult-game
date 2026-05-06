@@ -1,11 +1,12 @@
-import { useTranslation } from 'react-i18next'
 import { useEffect, useState } from 'react'
-import { LanguageSwitcher } from '../components/LanguageSwitcher'
+import { useTranslation } from 'react-i18next'
 import { CountdownTimer } from '../components/CountdownTimer'
 import { Footer } from '../components/Footer'
-import { getDailySeed, getUTC3Date } from '../utils/dailySeed'
-import { generateDailyGame, BillWithPrice } from '../utils/billGenerator'
+import { GuideModal } from '../components/GuideModel'
+import { LanguageSwitcher } from '../components/LanguageSwitcher'
+import { BillWithPrice, generateDailyGame } from '../utils/billGenerator'
 import { formatCurrency } from '../utils/currency'
+import { getDailySeed, getUTC3Date } from '../utils/dailySeed'
 
 interface CachedGameData {
   salary: number
@@ -18,6 +19,7 @@ export function AlreadyPlayed() {
   const { t, i18n } = useTranslation()
   const [gameData, setGameData] = useState<CachedGameData | null>(null)
   const [bills, setBills] = useState<BillWithPrice[]>([])
+  const [guideOpen, setGuideOpen] = useState(false)
 
   useEffect(() => {
     const dateKey = getUTC3Date()
@@ -54,6 +56,14 @@ export function AlreadyPlayed() {
           <h1 className="text-xl font-bold">{t('title')}</h1>
         </div>
         <LanguageSwitcher />
+        <button
+          onClick={() => setGuideOpen(true)}
+          className="ml-2 px-3 py-1 rounded text-sm font-medium bg-gray-700 text-gray-300 hover:bg-gray-600 transition-colors"
+          aria-label={t('help')}
+        >
+          ?
+        </button>
+        <GuideModal open={guideOpen} onClose={() => setGuideOpen(false)} />
       </header>
 
       <main className="p-4 max-w-4xl mx-auto space-y-8">

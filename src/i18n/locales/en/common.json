@@ -12,5 +12,9 @@
   "essential": "Essential",
   "discretionary": "Discretionary",
   "warning": "Could not sync with server",
-  "footer": "Developed by JeffsHenrique"
+  "footer": "Developed by JeffsHenrique",
+  "guideTitle": "How to Play",
+  "guideClose": "Got it!",
+  "help": "Help",
+  "guideRules": "You receive a random salary and a set of bills. The total of all bills always exceeds your salary — you can't pay everything.\n\nChoose which bills to pay and submit your selection. There is exactly ONE correct answer each day.\n\nIf your selection matches it perfectly, you win. If not... there's always tomorrow.\n\nOne play per day — resets at midnight (Brasília time)."
 }

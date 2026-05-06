@@ -12,5 +12,9 @@
   "essential": "Essencial",
   "discretionary": "Supérfluo",
   "warning": "Não foi possível sincronizar com o servidor",
-  "footer": "Desenvolvido por JeffsHenrique"
+  "footer": "Desenvolvido por JeffsHenrique",
+  "guideTitle": "Como Jogar",
+  "guideClose": "Entendi!",
+  "help": "Ajuda",
+  "guideRules": "Você recebe um salário aleatório e uma lista de contas. O total de todas as contas sempre excede seu salário — você não consegue pagar tudo.\n\nEscolha quais contas pagar e envie sua seleção. Existe exatamente UMA resposta correta por dia.\n\nSe sua seleção coincidir perfeitamente, você vence. Se não... sempre há amanhã.\n\nUma jogada por dia — reseta à meia-noite (horário de Brasília)."
 }
