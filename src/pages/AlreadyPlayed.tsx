@@ -1,11 +1,12 @@
+import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useEffect, useState } from 'react'
-import { LanguageSwitcher } from '../components/LanguageSwitcher'
 import { CountdownTimer } from '../components/CountdownTimer'
 import { Footer } from '../components/Footer'
-import { getDailySeed, getUTC3Date } from '../utils/dailySeed'
-import { generateDailyGame, BillWithPrice } from '../utils/billGenerator'
+import { GuideModal } from '../components/GuideModel'
+import { LanguageSwitcher } from '../components/LanguageSwitcher'
+import { BillWithPrice, generateDailyGame } from '../utils/billGenerator'
 import { formatCurrency } from '../utils/currency'
+import { getDailySeed, getUTC3Date } from '../utils/dailySeed'
 
 interface CachedGameData {
   salary: number
@@ -18,6 +19,8 @@ export function AlreadyPlayed() {
   const { t, i18n } = useTranslation()
   const [gameData, setGameData] = useState<CachedGameData | null>(null)
   const [bills, setBills] = useState<BillWithPrice[]>([])
+  const [guideOpen, setGuideOpen] = useState(false)
+  const reloadTriggered = useRef(false)
 
   useEffect(() => {
     const dateKey = getUTC3Date()
@@ -26,11 +29,26 @@ export function AlreadyPlayed() {
       const data: CachedGameData = JSON.parse(cached)
       setGameData(data)
 
-      // Regenerate today's game to get the bill details
       const seed = getDailySeed()
       const game = generateDailyGame(seed)
       setBills(game.bills)
     }
+  }, [])
+
+  useEffect(() => {
+    const checkMidnight = setInterval(() => {
+      const newDateKey = getUTC3Date()
+      const cachedKey = localStorage.getItem('last_date_key')
+      if (cachedKey && cachedKey !== newDateKey && !reloadTriggered.current) {
+        reloadTriggered.current = true
+        window.location.reload()
+      }
+    }, 1000)
+    return () => clearInterval(checkMidnight)
+  }, [])
+
+  useEffect(() => {
+    localStorage.setItem('last_date_key', getUTC3Date())
   }, [])
 
   const correctBills = bills.filter((b) => gameData?.correctAnswer.includes(b.id))
@@ -54,6 +72,14 @@ export function AlreadyPlayed() {
           <h1 className="text-xl font-bold">{t('title')}</h1>
         </div>
         <LanguageSwitcher />
+        <button
+          onClick={() => setGuideOpen(true)}
+          className="ml-2 px-3 py-1 rounded text-sm font-medium bg-gray-700 text-gray-300 hover:bg-gray-600 transition-colors"
+          aria-label={t('help')}
+        >
+          ?
+        </button>
+        <GuideModal open={guideOpen} onClose={() => setGuideOpen(false)} />
       </header>
 
       <main className="p-4 max-w-4xl mx-auto space-y-8">
@@ -64,14 +90,6 @@ export function AlreadyPlayed() {
 
         {gameData && bills.length > 0 && (
           <>
-            {/* Today's salary */}
-            <div className="bg-gradient-to-r from-blue-600 to-blue-800 rounded-xl p-6 text-white shadow-lg">
-              <p className="text-sm opacity-80">{t('youEarn')}</p>
-              <p className="text-3xl font-bold mt-1">
-                {formatCurrency(gameData.salary, i18n.language)}
-              </p>
-            </div>
-
             {/* Result banner */}
             <div
               className={`rounded-xl p-6 text-center ${
@@ -81,43 +99,40 @@ export function AlreadyPlayed() {
               }`}
             >
               <p className="text-2xl font-bold">
-                {t(gameData.result === 'win' ? 'congratulations' : 'irresponsible')}
+                {t(gameData.result === 'win' ? 'playedCongratulations' : 'playedIrresponsible')}
               </p>
             </div>
 
-            {/* Correct Answer */}
+            {/* Today's Bills */}
             <div className="bg-gray-800 rounded-xl p-6">
-              <p className="text-lg font-medium text-gray-300 mb-4">{t('rightAnswer')}:</p>
+              <p className="text-lg font-medium text-gray-300 mb-4">{t('todaysBills')}:</p>
               <div className="space-y-2">
-                {correctBills.map((bill) => (
-                  <div
-                    key={bill.id}
-                    className="flex justify-between items-center bg-green-900/30 border border-green-700/50 rounded-lg p-3"
-                  >
-                    <span className="text-white font-medium">
-                      {t(bill.nameKey, { ns: 'game' })}
-                    </span>
-                    <span className="text-white font-bold">
-                      {formatCurrency(bill.price, i18n.language)}
-                    </span>
-                  </div>
-                ))}
-              </div>
-              <div className="mt-4 pt-4 border-t border-gray-600 flex justify-between">
-                <span className="text-gray-400 font-medium">Total</span>
-                <span className="text-green-400 font-bold text-lg">
-                  {formatCurrency(correctTotal, i18n.language)}
-                </span>
+                {bills.map((bill) => {
+                  const wasCorrect = gameData.correctAnswer.includes(bill.id)
+                  return (
+                    <div
+                      key={bill.id}
+                      className={`flex justify-between items-center rounded-lg p-3 ${
+                        wasCorrect
+                          ? 'bg-green-900/30 border border-green-700/50'
+                          : 'bg-gray-700/30 border border-gray-700/30'
+                      }`}
+                    >
+                      <span className="text-white font-medium">
+                        {t(bill.nameKey, { ns: 'game' })}
+                      </span>
+                      <span className="text-white font-bold">
+                        {formatCurrency(bill.price, i18n.language)}
+                      </span>
+                    </div>
+                  )
+                })}
               </div>
             </div>
 
             {/* User's Selection */}
             <div className="bg-gray-800 rounded-xl p-6">
-              <p className="text-lg font-medium text-gray-300 mb-4">
-                {gameData.result === 'win'
-                  ? 'Your answer:'
-                  : 'Your answer:'}
-              </p>
+              <p className="text-lg font-medium text-gray-300 mb-4">{t('userAnswer')}:</p>
               {userBills.length === 0 ? (
                 <p className="text-gray-500 italic">No bills selected</p>
               ) : (

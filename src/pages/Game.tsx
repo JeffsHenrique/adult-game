@@ -1,11 +1,13 @@
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useGameStore } from '../store/useGameStore'
-import { LanguageSwitcher } from '../components/LanguageSwitcher'
-import { SalaryCard } from '../components/SalaryCard'
 import { BillCard } from '../components/BillCard'
-import { RunningTotal } from '../components/RunningTotal'
-import { ResultScreen } from '../components/ResultScreen'
 import { Footer } from '../components/Footer'
+import { GuideModal } from '../components/GuideModel'
+import { LanguageSwitcher } from '../components/LanguageSwitcher'
+import { ResultScreen } from '../components/ResultScreen'
+import { RunningTotal } from '../components/RunningTotal'
+import { SalaryCard } from '../components/SalaryCard'
+import { useGameStore } from '../store/useGameStore'
 
 export function Game() {
   const { t } = useTranslation()
@@ -19,6 +21,7 @@ export function Game() {
     submitSelection,
     serverError,
   } = useGameStore()
+  const [guideOpen, setGuideOpen] = useState(false)
 
   const total = bills
     .filter((b) => selectedBills.includes(b.id))
@@ -66,6 +69,14 @@ export function Game() {
           <h1 className="text-xl font-bold">{t('title')}</h1>
         </div>
         <LanguageSwitcher />
+        <button
+          onClick={() => setGuideOpen(true)}
+          className="ml-2 px-3 py-1 rounded text-sm font-medium bg-gray-700 text-gray-300 hover:bg-gray-600 transition-colors"
+          aria-label={t('help')}
+        >
+          ?
+        </button>
+        <GuideModal open={guideOpen} onClose={() => setGuideOpen(false)} />
       </header>
 
       {serverError && (
